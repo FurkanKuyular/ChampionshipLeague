@@ -154,7 +154,6 @@ class MatchService extends AbstractService
                 }
             }
 
-
             return true;
         } catch (\Throwable $e) {
             $this->logger->error(sprintf('[MatchService][playMatches] %s', $e));
