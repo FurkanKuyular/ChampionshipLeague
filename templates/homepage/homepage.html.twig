@@ -1,0 +1,74 @@
+<html>
+{% include('header/header.html.twig') %}
+<body>
+<div class="row">
+    <div class="column">
+        <div class="ptable">
+            <h1 class="headin">Standings</h1>
+            <table>
+                <tr class="col">
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GD</th>
+                    <th>PTS</th>
+                </tr>
+                {% for footballTeam in footballTeams %}
+                    <tr class="wpos">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ footballTeam.name }}</td>
+                        <td>{{ footballTeam.won }}</td>
+                        <td>{{ footballTeam.drawn }}</td>
+                        <td>{{ footballTeam.lost }}</td>
+                        <td>{{ footballTeam.goalDifference }}</td>
+                        <td>{{ footballTeam.point }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% if matches is not empty %}
+            <a type="button" href="{{ path('play_match') }}"><input type="button" value="Play Matches"></a>
+        {% else %}
+            <a type="button" href="{{ path('draw_lots') }}"><input type="button" value="Draw Lots"></a>
+        {% endif %}
+    </div>
+    <div class="column">
+        <div class="ptable">
+                <h1 class="headin">Match Results</h1>
+                    {% if matches is empty  %}
+                    <table>
+                        <tr class="wpos">
+                            <td>Matches will starts soon</td>
+                        </tr>
+                    </table>
+                    {% else %}
+                        <div class="row">
+                        {% for week in weeks %}
+                            <div class="secondColumn">
+                        <table>
+                        <tr class="col">
+                            <th>{{ week }} Week Match Result</th>
+                            {% for match in matches %}
+                                {% if match.week == week %}
+                                    <tr class="wpos week-{{ match.week }}">
+                                        {% if match.endedDate is null %}
+                                            <td>{{ match.homeFootballTeam.name  }} - {{ match.awayFootballTeam.name }}</td>
+                                        {% else %}
+                                            <td id="week">{{ match.homeFootballTeam.name  }} {{ match.homeFootballTeamScore}} : {{match.awayFootballTeamScore }} {{ match.awayFootballTeam.name }}</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        </table>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+            </div>
+    </div>
+</div>
+</body>
+</html>
